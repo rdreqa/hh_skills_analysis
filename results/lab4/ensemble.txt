@@ -1,0 +1,375 @@
+===== cluster/initial-ps.txt =====
+
+Timestamp: 2026-11-11T15:20:28.933+00:00
+$ docker compose ps
+
+NAME                 IMAGE             COMMAND                  SERVICE   CREATED          STATUS                    PORTS
+hh-zookeeper-zk1-1   zookeeper:3.9.6   "/docker-entrypoint.…"   zk1       21 minutes ago   Up 21 minutes (healthy)   127.0.0.1:2181->2181/tcp
+hh-zookeeper-zk2-1   zookeeper:3.9.6   "/docker-entrypoint.…"   zk2       21 minutes ago   Up 21 minutes (healthy)   127.0.0.1:2182->2181/tcp
+hh-zookeeper-zk3-1   zookeeper:3.9.6   "/docker-entrypoint.…"   zk3       21 minutes ago   Up 21 minutes (healthy)   127.0.0.1:2183->2181/tcp
+
+
+Exit code: 0
+Elapsed: 0.138012 s
+
+===== cluster/initial-zk1.txt =====
+
+Timestamp: 2026-11-11T15:20:29.387+00:00
+$ docker compose exec -T zk1 zkServer.sh status
+
+Client port found: 2181. Client address: localhost. Client SSL: false.
+Mode: follower
+
+ZooKeeper JMX enabled by default
+Using config: /conf/zoo.cfg
+
+Exit code: 0
+Elapsed: 0.453499 s
+
+===== cluster/initial-zk2.txt =====
+
+Timestamp: 2026-11-11T15:20:29.838+00:00
+$ docker compose exec -T zk2 zkServer.sh status
+
+Client port found: 2181. Client address: localhost. Client SSL: false.
+Mode: leader
+
+ZooKeeper JMX enabled by default
+Using config: /conf/zoo.cfg
+
+Exit code: 0
+Elapsed: 0.449982 s
+
+===== cluster/initial-zk3.txt =====
+
+Timestamp: 2026-11-11T15:20:30.278+00:00
+$ docker compose exec -T zk3 zkServer.sh status
+
+Client port found: 2181. Client address: localhost. Client SSL: false.
+Mode: follower
+
+ZooKeeper JMX enabled by default
+Using config: /conf/zoo.cfg
+
+Exit code: 0
+Elapsed: 0.439337 s
+
+===== cluster/server-version.txt =====
+
+Timestamp: 2026-11-11T15:32:19.288051+00:00
+$ docker compose exec -T zk1 zkServer.sh version
+
+Apache ZooKeeper, version 3.9.6 2026-09-03 19:29 UTC
+
+ZooKeeper JMX enabled by default
+Using config: /conf/zoo.cfg
+
+Exit code: 0
+
+===== cluster/image-platform.txt =====
+
+Timestamp: 2026-11-11T15:32:18.679302+00:00
+$ docker image inspect zookeeper:3.9.6 --format {{.Architecture}} {{.Os}} {{json .RepoDigests}}
+
+arm64 linux ["zookeeper@sha256:bbf678337a9242fcb6e49e51193855078ec515251cf11fe0bcfabae6a10e040a"]
+
+
+Exit code: 0
+
+===== cluster/zk1-myid.txt =====
+
+Timestamp: 2026-11-11T15:20:30.425+00:00
+$ docker compose exec -T zk1 cat /data/myid
+
+1
+
+
+Exit code: 0
+Elapsed: 0.147156 s
+
+===== cluster/zk2-myid.txt =====
+
+Timestamp: 2026-11-11T15:20:30.561+00:00
+$ docker compose exec -T zk2 cat /data/myid
+
+2
+
+
+Exit code: 0
+Elapsed: 0.134927 s
+
+===== cluster/zk3-myid.txt =====
+
+Timestamp: 2026-11-11T15:20:30.702+00:00
+$ docker compose exec -T zk3 cat /data/myid
+
+3
+
+
+Exit code: 0
+Elapsed: 0.140786 s
+
+===== cluster/volumes.txt =====
+
+Timestamp: 2026-11-11T15:20:30.747+00:00
+$ docker inspect hh-zookeeper-zk1-1 hh-zookeeper-zk2-1 hh-zookeeper-zk3-1 --format {{.Name}} {{json .Mounts}}
+
+/hh-zookeeper-zk1-1 [{"Type":"volume","Name":"hh-zookeeper_zk1-data","Source":"/var/lib/docker/volumes/hh-zookeeper_zk1-data/_data","Destination":"/data","Driver":"local","Mode":"rw","RW":true,"Propagation":""},{"Type":"volume","Name":"hh-zookeeper_zk1-datalog","Source":"/var/lib/docker/volumes/hh-zookeeper_zk1-datalog/_data","Destination":"/datalog","Driver":"local","Mode":"rw","RW":true,"Propagation":""},{"Type":"volume","Name":"2d9eb123b73b348ba09ef0ce744235b07f9591acf234a4d3909a3596e3b8421b","Source":"/var/lib/docker/volumes/2d9eb123b73b348ba09ef0ce744235b07f9591acf234a4d3909a3596e3b8421b/_data","Destination":"/logs","Driver":"local","Mode":"","RW":true,"Propagation":""},{"Type":"bind","Source":"/host_mnt/Users/egor/PycharmProjects/hh_skills_analysis/zookeeper/zoo.cfg","Destination":"/conf/zoo.cfg","Mode":"ro","RW":false,"Propagation":"rprivate"}]
+/hh-zookeeper-zk2-1 [{"Type":"volume","Name":"hh-zookeeper_zk2-data","Source":"/var/lib/docker/volumes/hh-zookeeper_zk2-data/_data","Destination":"/data","Driver":"local","Mode":"rw","RW":true,"Propagation":""},{"Type":"volume","Name":"hh-zookeeper_zk2-datalog","Source":"/var/lib/docker/volumes/hh-zookeeper_zk2-datalog/_data","Destination":"/datalog","Driver":"local","Mode":"rw","RW":true,"Propagation":""},{"Type":"volume","Name":"c45a31bb62d5d1a817134eaa233a1f161c21cebdc94fb054a211aa5c38fcd692","Source":"/var/lib/docker/volumes/c45a31bb62d5d1a817134eaa233a1f161c21cebdc94fb054a211aa5c38fcd692/_data","Destination":"/logs","Driver":"local","Mode":"","RW":true,"Propagation":""},{"Type":"bind","Source":"/Users/egor/PycharmProjects/hh_skills_analysis/zookeeper/zoo.cfg","Destination":"/conf/zoo.cfg","Mode":"ro","RW":false,"Propagation":"rprivate"}]
+/hh-zookeeper-zk3-1 [{"Type":"volume","Name":"hh-zookeeper_zk3-data","Source":"/var/lib/docker/volumes/hh-zookeeper_zk3-data/_data","Destination":"/data","Driver":"local","Mode":"rw","RW":true,"Propagation":""},{"Type":"volume","Name":"hh-zookeeper_zk3-datalog","Source":"/var/lib/docker/volumes/hh-zookeeper_zk3-datalog/_data","Destination":"/datalog","Driver":"local","Mode":"rw","RW":true,"Propagation":""},{"Type":"volume","Name":"c8bb96985932ebc7b6f4b6c655fdd0642ce5aa29b9ff54b69142d22a1e226217","Source":"/var/lib/docker/volumes/c8bb96985932ebc7b6f4b6c655fdd0642ce5aa29b9ff54b69142d22a1e226217/_data","Destination":"/logs","Driver":"local","Mode":"","RW":true,"Propagation":""},{"Type":"bind","Source":"/host_mnt/Users/egor/PycharmProjects/hh_skills_analysis/zookeeper/zoo.cfg","Destination":"/conf/zoo.cfg","Mode":"ro","RW":false,"Propagation":"rprivate"}]
+
+
+Exit code: 0
+Elapsed: 0.044236 s
+
+===== cluster/three-up-operation.json =====
+
+{
+  "timestamp": "2026-11-11T15:20:30.748+00:00",
+  "hosts": "127.0.0.1:2181,127.0.0.1:2182,127.0.0.1:2183",
+  "expected_writable": true,
+  "operation": "connect; create ephemeral; set(version=0); get; delete own probe",
+  "writable": true,
+  "path": "/homework-docker-20261111-three-up-0000000000",
+  "read_value": "after",
+  "version": 1,
+  "elapsed_seconds": 0.2742231670417823
+}
+
+===== cluster/stop-zk3.txt =====
+
+Timestamp: 2026-11-11T15:20:31.724+00:00
+$ docker compose stop zk3
+
+
+ Container hh-zookeeper-zk3-1 Stopping 
+ Container hh-zookeeper-zk3-1 Stopped 
+
+Exit code: 0
+Elapsed: 0.701181 s
+
+===== cluster/one-down-operation.json =====
+
+{
+  "timestamp": "2026-11-11T15:20:31.725+00:00",
+  "hosts": "127.0.0.1:2181,127.0.0.1:2182,127.0.0.1:2183",
+  "expected_writable": true,
+  "operation": "connect; create ephemeral; set(version=0); get; delete own probe",
+  "writable": true,
+  "path": "/homework-docker-20261111-one-down-0000000001",
+  "read_value": "after",
+  "version": 1,
+  "elapsed_seconds": 0.07568666600855067
+}
+
+===== cluster/one-down-zk1.txt =====
+
+Timestamp: 2026-11-11T15:20:32.272+00:00
+$ docker compose exec -T zk1 zkServer.sh status
+
+Client port found: 2181. Client address: localhost. Client SSL: false.
+Mode: follower
+
+ZooKeeper JMX enabled by default
+Using config: /conf/zoo.cfg
+
+Exit code: 0
+Elapsed: 0.470605 s
+
+===== cluster/one-down-zk2.txt =====
+
+Timestamp: 2026-11-11T15:20:32.800+00:00
+$ docker compose exec -T zk2 zkServer.sh status
+
+Client port found: 2181. Client address: localhost. Client SSL: false.
+Mode: leader
+
+ZooKeeper JMX enabled by default
+Using config: /conf/zoo.cfg
+
+Exit code: 0
+Elapsed: 0.527647 s
+
+===== cluster/stop-zk2.txt =====
+
+Timestamp: 2026-11-11T15:20:33.739+00:00
+$ docker compose stop zk2
+
+
+ Container hh-zookeeper-zk2-1 Stopping 
+ Container hh-zookeeper-zk2-1 Stopped 
+
+Exit code: 0
+Elapsed: 0.713748 s
+
+===== cluster/two-down-operation.json =====
+
+{
+  "timestamp": "2026-11-11T15:20:33.741+00:00",
+  "hosts": "127.0.0.1:2181,127.0.0.1:2182,127.0.0.1:2183",
+  "expected_writable": false,
+  "operation": "connect; create ephemeral; set(version=0); get; delete own probe",
+  "writable": false,
+  "error": "KazooTimeoutError",
+  "message": "Connection time-out",
+  "elapsed_seconds": 8.02731675002724
+}
+
+===== cluster/two-down-zk1.txt =====
+
+Timestamp: 2026-11-11T15:20:42.201+00:00
+$ docker compose exec -T zk1 zkServer.sh status
+
+Client port found: 2181. Client address: localhost. Client SSL: false.
+Error contacting service. It is probably not running.
+
+ZooKeeper JMX enabled by default
+Using config: /conf/zoo.cfg
+
+Exit code: 1
+Elapsed: 0.429102 s
+
+===== cluster/direct-write-commands.txt =====
+
+$ docker compose stop zk3
+ Container hh-zookeeper-zk3-1 Stopping 
+ Container hh-zookeeper-zk3-1 Stopped 
+
+
+$ docker compose stop zk2
+ Container hh-zookeeper-zk2-1 Stopping 
+ Container hh-zookeeper-zk2-1 Stopped 
+
+
+$ docker compose start zk2 zk3
+ Container hh-zookeeper-zk3-1 Starting 
+ Container hh-zookeeper-zk2-1 Starting 
+ Container hh-zookeeper-zk3-1 Started 
+ Container hh-zookeeper-zk2-1 Started 
+
+
+$ docker compose up -d --wait --wait-timeout 120
+ Container hh-zookeeper-zk3-1 Running 
+ Container hh-zookeeper-zk1-1 Running 
+ Container hh-zookeeper-zk2-1 Running 
+ Container hh-zookeeper-zk1-1 Waiting 
+ Container hh-zookeeper-zk2-1 Waiting 
+ Container hh-zookeeper-zk3-1 Waiting 
+ Container hh-zookeeper-zk1-1 Healthy 
+ Container hh-zookeeper-zk3-1 Healthy 
+ Container hh-zookeeper-zk2-1 Healthy
+
+===== cluster/direct-write-without-quorum.json =====
+
+{
+  "path": "/homework-direct-write-docker-20261111",
+  "timestamp": "2026-11-11T15:27:25.401670+00:00",
+  "operation": "set_async(path, after, version=0) from existing session while only zk1 is running",
+  "session_before_stops": 216172886389358596,
+  "write_success": false,
+  "write_error": "KazooTimeoutError",
+  "write_error_message": "",
+  "write_wait_seconds": 6.0102355419658124,
+  "value_after_restoration": "before",
+  "version_after_restoration": 0,
+  "status": "PASS"
+}
+
+===== cluster/restore-start.txt =====
+
+Timestamp: 2026-11-11T15:20:42.717+00:00
+$ docker compose start zk2 zk3
+
+
+ Container hh-zookeeper-zk2-1 Starting 
+ Container hh-zookeeper-zk3-1 Starting 
+ Container hh-zookeeper-zk2-1 Started 
+ Container hh-zookeeper-zk3-1 Started 
+
+Exit code: 0
+Elapsed: 0.382602 s
+
+===== cluster/restore-healthy.txt =====
+
+Timestamp: 2026-11-11T15:20:48.571+00:00
+$ docker compose up -d --wait --wait-timeout 120
+
+
+ Container hh-zookeeper-zk3-1 Running 
+ Container hh-zookeeper-zk1-1 Running 
+ Container hh-zookeeper-zk2-1 Running 
+ Container hh-zookeeper-zk3-1 Waiting 
+ Container hh-zookeeper-zk1-1 Waiting 
+ Container hh-zookeeper-zk2-1 Waiting 
+ Container hh-zookeeper-zk1-1 Healthy 
+ Container hh-zookeeper-zk2-1 Healthy 
+ Container hh-zookeeper-zk3-1 Healthy 
+
+Exit code: 0
+Elapsed: 5.854140 s
+
+===== cluster/restored-operation.json =====
+
+{
+  "timestamp": "2026-11-11T15:20:48.903+00:00",
+  "hosts": "127.0.0.1:2181,127.0.0.1:2182,127.0.0.1:2183",
+  "expected_writable": true,
+  "operation": "connect; create ephemeral; set(version=0); get; delete own probe",
+  "writable": true,
+  "path": "/homework-docker-20261111-restored-0000000002",
+  "read_value": "after",
+  "version": 1,
+  "elapsed_seconds": 0.17761254200013354
+}
+
+===== cluster/final-zk1.txt =====
+
+Timestamp: 2026-11-11T15:32:19.750866+00:00
+$ docker compose exec -T zk1 zkServer.sh status
+
+Client port found: 2181. Client address: localhost. Client SSL: false.
+Mode: follower
+
+ZooKeeper JMX enabled by default
+Using config: /conf/zoo.cfg
+
+Exit code: 0
+
+===== cluster/final-zk2.txt =====
+
+Timestamp: 2026-11-11T15:32:20.158120+00:00
+$ docker compose exec -T zk2 zkServer.sh status
+
+Client port found: 2181. Client address: localhost. Client SSL: false.
+Mode: follower
+
+ZooKeeper JMX enabled by default
+Using config: /conf/zoo.cfg
+
+Exit code: 0
+
+===== cluster/final-zk3.txt =====
+
+Timestamp: 2026-11-11T15:32:20.538571+00:00
+$ docker compose exec -T zk3 zkServer.sh status
+
+Client port found: 2181. Client address: localhost. Client SSL: false.
+Mode: leader
+
+ZooKeeper JMX enabled by default
+Using config: /conf/zoo.cfg
+
+Exit code: 0
+
+===== final-containers.txt =====
+
+Timestamp: 2026-11-11T15:32:19.348503+00:00
+$ docker ps --filter name=hh-zookeeper --filter name=rustfs-homework --format {{.Names}}	{{.Status}}	{{.Ports}}
+
+hh-zookeeper-zk2-1	Up 4 minutes (healthy)	127.0.0.1:2182->2181/tcp
+hh-zookeeper-zk3-1	Up 4 minutes (healthy)	127.0.0.1:2183->2181/tcp
+hh-zookeeper-zk1-1	Up 32 minutes (healthy)	127.0.0.1:2181->2181/tcp
+rustfs-homework	Up 17 minutes	0.0.0.0:9000-9001->9000-9001/tcp, [::]:9000-9001->9000-9001/tcp
+
+
+Exit code: 0

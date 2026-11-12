@@ -1,0 +1,35 @@
+===== ephemeral-client.txt =====
+
+$ /Users/egor/PycharmProjects/hh_skills_analysis/.venv/bin/python -m zkcoord ephemeral --hosts 127.0.0.1:2181,127.0.0.1:2182,127.0.0.1:2183 --path /homework-ephemeral-docker-20261111 --hold 120
+{
+  "path": "/homework-ephemeral-docker-20261111",
+  "pid": 41265,
+  "session_timeout": 10.0
+}
+
+===== ephemeral.json =====
+
+[
+  {
+    "timestamp": "2026-11-11T15:20:53.190+00:00",
+    "event": "exists_before_kill",
+    "path": "/homework-ephemeral-docker-20261111",
+    "exists": true,
+    "owner_pid": 41265,
+    "ephemeral_owner": 144115292351430658,
+    "observer_session": 144115292351430657
+  },
+  {
+    "timestamp": "2026-11-11T15:20:53.199+00:00",
+    "event": "sigkill",
+    "owner_pid": 41265,
+    "return_code": -9
+  },
+  {
+    "timestamp": "2026-11-11T15:21:04.974+00:00",
+    "event": "absent_after_session_expiration",
+    "path": "/homework-ephemeral-docker-20261111",
+    "exists": false,
+    "elapsed_after_kill_seconds": 11.784174791013356
+  }
+]

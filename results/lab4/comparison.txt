@@ -1,0 +1,278 @@
+===== rustfs/check-s3.txt =====
+
+Timestamp: 2026-11-11T15:21:06.556+00:00
+$ /Users/egor/PycharmProjects/hh_skills_analysis/.venv/bin/python check_s3.py
+
+Bucket: hh-lake
+File: hh.zip | Size: 22.78 MiB
+File: results/benchmark_results.csv | Size: 0.00 MiB
+File: results/duckdb/pairs.csv | Size: 0.06 MiB
+File: results/duckdb/skills.csv | Size: 0.00 MiB
+File: results/duckdb/triples.csv | Size: 0.41 MiB
+File: results/mapreduce/pairs.csv | Size: 0.06 MiB
+File: results/mapreduce/skills.csv | Size: 0.00 MiB
+File: results/mapreduce/triples.csv | Size: 0.41 MiB
+File: results/regions_skills.csv | Size: 0.00 MiB
+File: results/regions_summary.csv | Size: 0.00 MiB
+File: results/salary_analysis.csv | Size: 0.02 MiB
+File: results/stacks/stack_10/pairs.csv | Size: 0.04 MiB
+File: results/stacks/stack_10/skills.csv | Size: 0.00 MiB
+File: results/stacks/stack_10/triples.csv | Size: 0.16 MiB
+File: results/stacks/stack_3/pairs.csv | Size: 0.00 MiB
+File: results/stacks/stack_3/skills.csv | Size: 0.00 MiB
+File: results/stacks/stack_3/triples.csv | Size: 0.00 MiB
+File: results/stacks/stack_5/pairs.csv | Size: 0.01 MiB
+File: results/stacks/stack_5/skills.csv | Size: 0.00 MiB
+File: results/stacks/stack_5/triples.csv | Size: 0.03 MiB
+File: vacancies.jsonl | Size: 51.26 MiB
+
+Dataset found!
+Object: vacancies.jsonl
+Size: 51.26 MiB
+
+
+Exit code: 0
+Elapsed: 1.562596 s
+
+===== rustfs/source.json =====
+
+{
+  "bucket": "hh-lake",
+  "object": "vacancies.jsonl",
+  "bytes": 53754299,
+  "etag": "\"1e4588a4f83a50872b8d0cb1dad28b71-4\"",
+  "last_modified": "2026-10-21T10:05:18+00:00"
+}
+
+===== original-mapreduce.txt =====
+
+Timestamp: 2026-11-11T15:21:08.893+00:00
+$ /Users/egor/PycharmProjects/hh_skills_analysis/.venv/bin/python mapreduce.py
+
+
+DevOps-вакансий: 222
+Обработано чанков: 50
+Повторных попыток: 0
+
+Уникальных комбинаций (1): 225
+  Linux: 110
+  Kubernetes: 82
+  Docker: 71
+  Ansible: 63
+  Python: 58
+
+Уникальных комбинаций (2): 2251
+  Kubernetes + Linux: 54
+  Ansible + Linux: 52
+  Docker + Kubernetes: 50
+  Docker + Linux: 50
+  Ansible + Kubernetes: 44
+
+Уникальных комбинаций (3): 11112
+  Ansible + Kubernetes + Linux: 35
+  Docker + Kubernetes + Linux: 33
+  Grafana + Linux + Prometheus: 29
+  Ansible + Grafana + Linux: 29
+  Ansible + Bash + Linux: 26
+
+Время: 1.579 сек
+Результаты сохранены в RustFS
+
+
+Exit code: 0
+Elapsed: 1.991349 s
+
+===== no_fencing/verify.json =====
+
+{
+  "job": "docker-nf-docker-20261111",
+  "matches_original_mapper": true,
+  "original_s3": {
+    "skills.csv": true,
+    "pairs.csv": true,
+    "triples.csv": true
+  },
+  "dataset_sha256": "2dddd951dfac058a163a5b4722689adac16b3ad8ca14a0c2ab309ac8fab2a752",
+  "devops": 222,
+  "unique": {
+    "1": 225,
+    "2": 2251,
+    "3": 11112
+  },
+  "occurrences": {
+    "1": 1299,
+    "2": 6276,
+    "3": 23668
+  },
+  "csv_sha256": {
+    "1": "fdf95315a238b381291f6a0fde401fae6a51c9c1a00332a9c36047a0c8d29253",
+    "2": "f11299b4023b82bdde080453c8bdae992908d76336c32d2f61419901c85a66dd",
+    "3": "1608d6c784ae53855b8215065720045ba2177007b6a2979a097fd4420cc32a1e"
+  }
+}
+
+===== with_fencing/verify.json =====
+
+{
+  "job": "docker-f-docker-20261111",
+  "matches_original_mapper": true,
+  "original_s3": {
+    "skills.csv": true,
+    "pairs.csv": true,
+    "triples.csv": true
+  },
+  "dataset_sha256": "2dddd951dfac058a163a5b4722689adac16b3ad8ca14a0c2ab309ac8fab2a752",
+  "devops": 222,
+  "unique": {
+    "1": 225,
+    "2": 2251,
+    "3": 11112
+  },
+  "occurrences": {
+    "1": 1299,
+    "2": 6276,
+    "3": 23668
+  },
+  "csv_sha256": {
+    "1": "fdf95315a238b381291f6a0fde401fae6a51c9c1a00332a9c36047a0c8d29253",
+    "2": "f11299b4023b82bdde080453c8bdae992908d76336c32d2f61419901c85a66dd",
+    "3": "1608d6c784ae53855b8215065720045ba2177007b6a2979a097fd4420cc32a1e"
+  }
+}
+
+===== no_fencing/inspect.json =====
+
+{
+  "job": {
+    "name": "docker-nf-docker-20261111",
+    "spec": {
+      "chunk_count": 50,
+      "chunk_size": 200,
+      "fencing": false,
+      "input_path": "/Users/egor/PycharmProjects/hh_skills_analysis/.state/docker-20261111/inputs/2dddd951dfac058a163a5b4722689adac16b3ad8ca14a0c2ab309ac8fab2a752.jsonl",
+      "mapper_sha256": "a9a68c2b4303c65f64b5784225dbbbd8e56436aa84c74a4d20b87826d23f8c75",
+      "sha256": "2dddd951dfac058a163a5b4722689adac16b3ad8ca14a0c2ab309ac8fab2a752"
+    },
+    "active_epoch": 8589934611,
+    "owner": "c2",
+    "result_version": 2,
+    "result_id": 2
+  },
+  "completed_chunks": 50,
+  "publications": [
+    {
+      "version": 1,
+      "epoch": 8589934611,
+      "owner": "c2",
+      "created_at": "2026-11-11T15:21:23.765Z"
+    },
+    {
+      "version": 2,
+      "epoch": 8589934609,
+      "owner": "c1",
+      "created_at": "2026-11-11T15:21:52.776Z"
+    }
+  ],
+  "pointer": {
+    "id": 2,
+    "version": 2,
+    "epoch": 8589934609,
+    "owner": "c1"
+  },
+  "summary": {
+    "devops": 222,
+    "unique": {
+      "1": 225,
+      "2": 2251,
+      "3": 11112
+    },
+    "occurrences": {
+      "1": 1299,
+      "2": 6276,
+      "3": 23668
+    },
+    "csv_sha256": {
+      "1": "fdf95315a238b381291f6a0fde401fae6a51c9c1a00332a9c36047a0c8d29253",
+      "2": "f11299b4023b82bdde080453c8bdae992908d76336c32d2f61419901c85a66dd",
+      "3": "1608d6c784ae53855b8215065720045ba2177007b6a2979a097fd4420cc32a1e"
+    }
+  }
+}
+
+===== with_fencing/inspect.json =====
+
+{
+  "job": {
+    "name": "docker-f-docker-20261111",
+    "spec": {
+      "chunk_count": 50,
+      "chunk_size": 200,
+      "fencing": true,
+      "input_path": "/Users/egor/PycharmProjects/hh_skills_analysis/.state/docker-20261111/inputs/2dddd951dfac058a163a5b4722689adac16b3ad8ca14a0c2ab309ac8fab2a752.jsonl",
+      "mapper_sha256": "a9a68c2b4303c65f64b5784225dbbbd8e56436aa84c74a4d20b87826d23f8c75",
+      "sha256": "2dddd951dfac058a163a5b4722689adac16b3ad8ca14a0c2ab309ac8fab2a752"
+    },
+    "active_epoch": 8589934625,
+    "owner": "c2",
+    "result_version": 1,
+    "result_id": 3
+  },
+  "completed_chunks": 50,
+  "publications": [
+    {
+      "version": 1,
+      "epoch": 8589934625,
+      "owner": "c2",
+      "created_at": "2026-11-11T15:22:09.647Z"
+    }
+  ],
+  "pointer": {
+    "id": 3,
+    "version": 1,
+    "epoch": 8589934625,
+    "owner": "c2"
+  },
+  "summary": {
+    "devops": 222,
+    "unique": {
+      "1": 225,
+      "2": 2251,
+      "3": 11112
+    },
+    "occurrences": {
+      "1": 1299,
+      "2": 6276,
+      "3": 23668
+    },
+    "csv_sha256": {
+      "1": "fdf95315a238b381291f6a0fde401fae6a51c9c1a00332a9c36047a0c8d29253",
+      "2": "f11299b4023b82bdde080453c8bdae992908d76336c32d2f61419901c85a66dd",
+      "3": "1608d6c784ae53855b8215065720045ba2177007b6a2979a097fd4420cc32a1e"
+    }
+  }
+}
+
+===== rustfs/final-integrity.json =====
+
+{
+  "timestamp": "2026-11-11T15:33:11.057516+00:00",
+  "input_etag_unchanged": true,
+  "input_size_unchanged": true,
+  "csv_unchanged": {
+    "skills.csv": true,
+    "pairs.csv": true,
+    "triples.csv": true
+  }
+}
+
+===== tests.txt =====
+
+Timestamp: 2026-11-11T15:24:21.935+00:00
+$ /Users/egor/PycharmProjects/hh_skills_analysis/.venv/bin/python -m pytest -q
+
+................                                                         [100%]
+16 passed in 99.11s (0:01:39)
+
+
+Exit code: 0
+Elapsed: 99.819139 s

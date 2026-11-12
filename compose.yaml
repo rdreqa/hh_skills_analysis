@@ -1,0 +1,57 @@
+name: hh-zookeeper
+
+x-zookeeper: &zookeeper
+  image: zookeeper:3.9.6
+  restart: unless-stopped
+  environment: &zk-env
+    ZOO_SERVERS: server.1=zk1:2888:3888;2181 server.2=zk2:2888:3888;2181 server.3=zk3:2888:3888;2181
+    JVMFLAGS: -Xms128m -Xmx256m
+  healthcheck:
+    test: [CMD, zkServer.sh, status]
+    interval: 5s
+    timeout: 5s
+    retries: 12
+    start_period: 15s
+
+services:
+  zk1:
+    <<: *zookeeper
+    hostname: zk1
+    environment:
+      <<: *zk-env
+      ZOO_MY_ID: "1"
+    ports: ["127.0.0.1:2181:2181"]
+    volumes:
+      - zk1-data:/data
+      - zk1-datalog:/datalog
+      - ./zookeeper/zoo.cfg:/conf/zoo.cfg:ro
+  zk2:
+    <<: *zookeeper
+    hostname: zk2
+    environment:
+      <<: *zk-env
+      ZOO_MY_ID: "2"
+    ports: ["127.0.0.1:2182:2181"]
+    volumes:
+      - zk2-data:/data
+      - zk2-datalog:/datalog
+      - ./zookeeper/zoo.cfg:/conf/zoo.cfg:ro
+  zk3:
+    <<: *zookeeper
+    hostname: zk3
+    environment:
+      <<: *zk-env
+      ZOO_MY_ID: "3"
+    ports: ["127.0.0.1:2183:2181"]
+    volumes:
+      - zk3-data:/data
+      - zk3-datalog:/datalog
+      - ./zookeeper/zoo.cfg:/conf/zoo.cfg:ro
+
+volumes:
+  zk1-data:
+  zk1-datalog:
+  zk2-data:
+  zk2-datalog:
+  zk3-data:
+  zk3-datalog:
